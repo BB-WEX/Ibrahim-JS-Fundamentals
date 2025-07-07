@@ -19,6 +19,9 @@ const street = document.getElementById("street");
 const suite = document.getElementById("suite");
 const city = document.getElementById("city");
 const zipcode = document.getElementById("zipcode");
+const phone = document.getElementById("phone");
+const website = document.getElementById("website");
+const company = document.getElementById("company");
 
 
 function displayOutput(message, target){
@@ -35,21 +38,23 @@ function getID(){
     });
     
 
-    const TargetArray = [name, username, email, street, suite, city, zipcode];
+    const TargetArray = [name, username, email, company, phone, website, street, suite, city, zipcode];
     const ObjectArray = Object.values(SelectedData);
-    const AddressArray = Object.values(SelectedData.address)
-
+    const AddressArray = Object.values(SelectedData.address);
+    
     ObjectArray.shift();
-
-    var x = 0;
+    AddressArray.pop();
     
     for(let i = 0; i < TargetArray.length; i++){
-        if(i < 3){
-            displayOutput(ObjectArray[i], TargetArray[i]);
-        }else{
-            displayOutput(AddressArray[x], TargetArray[i]);
-            x++;
+        displayOutput(ObjectArray[i], TargetArray[i]);
+        displayOutput(SelectedData.company.name, company);
+        
+        if (i >=6 ){
+            for(let x = 0; x < AddressArray.length; x++){
+                displayOutput(AddressArray[x], TargetArray[i]);
+                i++
+            }
         }
     }
-
+    
 }
