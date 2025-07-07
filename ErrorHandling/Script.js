@@ -38,12 +38,14 @@ function getID() {
     data.forEach(elem => {
         if (elem.id == textinput) {
             SelectedData = elem;
-        }else{
-            throw new Error("ID not found in data");
         }
     });
-
-
+    
+    try{SelectedData;}
+    catch(error){
+        console.error("ID in data not found");
+    }
+    
     const TargetArray = [name, username, email, company, phone, website, street, suite, city, zipcode];
     const ObjectArray = Object.values(SelectedData);
     const AddressArray = Object.values(SelectedData.address);
