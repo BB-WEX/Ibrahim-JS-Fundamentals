@@ -24,37 +24,43 @@ const website = document.getElementById("website");
 const company = document.getElementById("company");
 
 
-function displayOutput(message, target){
-    target.innerText = message;
+function displayOutput(message, target) {
+    try{
+        target.innerText = message;
+    }catch (error){
+        console.error("Cannot Target .innerText");
+    }
 }
 
-function getID(){
+function getID() {
     const textinput = document.getElementById("InputID").value;
-    
+
     data.forEach(elem => {
-        if(elem.id == textinput){
+        if (elem.id == textinput) {
             SelectedData = elem;
+        }else{
+            throw new Error("ID not found in data");
         }
     });
-    
+
 
     const TargetArray = [name, username, email, company, phone, website, street, suite, city, zipcode];
     const ObjectArray = Object.values(SelectedData);
     const AddressArray = Object.values(SelectedData.address);
-    
+
     ObjectArray.shift();
     AddressArray.pop();
-    
-    for(let i = 0; i < TargetArray.length; i++){
+
+    for (let i = 0; i < TargetArray.length; i++) {
         displayOutput(ObjectArray[i], TargetArray[i]);
         displayOutput(SelectedData.company.name, company);
-        
-        if (i >=6 ){
-            for(let x = 0; x < AddressArray.length; x++){
+
+        if (i >= 6) {
+            for (let x = 0; x < AddressArray.length; x++) {
                 displayOutput(AddressArray[x], TargetArray[i]);
                 i++
             }
         }
     }
-    
+
 }
