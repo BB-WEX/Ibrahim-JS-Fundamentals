@@ -25,9 +25,9 @@ const company = document.getElementById("company");
 
 
 function displayOutput(message, target) {
-    try{
+    try {
         target.innerText = message;
-    }catch (error){
+    } catch (error) {
         console.error("Cannot Target .innerText");
     }
 }
@@ -40,29 +40,30 @@ function getID() {
             SelectedData = elem;
         }
     });
-    
-    try{SelectedData;}
-    catch(error){
-        console.error("ID in data not found");
-    }
-    
-    const TargetArray = [name, username, email, company, phone, website, street, suite, city, zipcode];
-    const ObjectArray = Object.values(SelectedData);
-    const AddressArray = Object.values(SelectedData.address);
 
-    ObjectArray.shift();
-    AddressArray.pop();
+    try {
+        SelectedData;
 
-    for (let i = 0; i < TargetArray.length; i++) {
-        displayOutput(ObjectArray[i], TargetArray[i]);
-        displayOutput(SelectedData.company.name, company);
 
-        if (i >= 6) {
-            for (let x = 0; x < AddressArray.length; x++) {
-                displayOutput(AddressArray[x], TargetArray[i]);
-                i++
+        const TargetArray = [name, username, email, company, phone, website, street, suite, city, zipcode];
+        const ObjectArray = Object.values(SelectedData);
+        const AddressArray = Object.values(SelectedData.address);
+
+        ObjectArray.shift();
+        AddressArray.pop();
+
+        for (let i = 0; i < TargetArray.length; i++) {
+            displayOutput(ObjectArray[i], TargetArray[i]);
+            displayOutput(SelectedData.company.name, company);
+
+            if (i >= 6) {
+                for (let x = 0; x < AddressArray.length; x++) {
+                    displayOutput(AddressArray[x], TargetArray[i]);
+                    i++
+                }
             }
         }
+    } catch (error) {
+        console.error("ID in data not found");
     }
-
 }
