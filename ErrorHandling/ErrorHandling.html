@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Error Handling</title>
     <link rel="stylesheet" href="Style.css">
-    <script src="Script.js"></script>
+    <script defer src="Script.js"></script>
 </head>
-<body>
+<body onload="fetchData()">
     
     <div class="Contain">
-        <textarea id="InputID" oninput="" placeholder="ID 1-11"></textarea>
+        <textarea id="InputID" oninput="getID()" maxlength="2" placeholder="ID 1-10"></textarea>
         <div class="info">
             <h1 id="name">Name</h1>
             <h2 id="username">username</h2>
