@@ -110,3 +110,21 @@ function hit() {
     }
 
 }
+
+function pass() {
+    // let dealer choose do their turn
+    // for now end turn
+
+    if (total.innerText == 21){
+        
+        win.innerText += " +" + bet;
+        win.style.display = "block";
+
+        score.innerText = Number(score.innerText) + bet;
+
+        hitBtn.disabled = true;
+        passBtn.disabled = true;
+
+        setTimeout(Reset, 3000);
+    }
+}
