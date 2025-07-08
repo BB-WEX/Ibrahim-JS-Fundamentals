@@ -26,18 +26,18 @@
 
         <div class="player-info">
             <div class="hand">
-                <h1>Your Hand</h1>
-                <p>(hand)</p>
+                <h1>Your Hand: <span id="total">0</span></h1>
+                <p id="hand"></p>
             </div>
 
             <div class="choices">
-                <button class="hit">"Hit me"</button>
-                <button class="pass">"I'll stay"</button>
+                <button class="hit" onclick="hit()">"Hit me"</button>
+                <button class="pass" onclick="pass()">"I'll stay"</button>
             </div>
 
             <div class="betting">
-                <p class="score">You: £200</p>
-                <p class="bet">Bet: £0</p>
+                <p class="score" id="score">You: £200</p>
+                <p class="bet" id="bet">Bet: £0</p>
             </div>
         </div>
 
