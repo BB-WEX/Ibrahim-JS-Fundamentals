@@ -6,12 +6,10 @@ html{
 }
 
 body{
-    display: flex;
+    position: relative;
     width: 100%;
     height: 100%;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     background-image: url(Background.png);
     background-size: cover;
     background-position: center;
@@ -24,20 +22,28 @@ body{
 }
 
 .container{
+    position: absolute;
     display: flex;
     flex-direction: column;
     background-color: black;
     border: solid rgb(121, 105, 15) 5px;
-    border-radius: 10px;
+    border-radius: 40px;
     box-shadow: inset 0 0 100px 10px goldenrod;
     color: white;
-    width: 400px;
-    height: 500px;
+    width: 800px;
+    height: 300px;
     padding: 2rem;
+    gap: 40px;
+    bottom: 0;
+    left: 26%;
 }
 
 .title{
     text-align: center;
+    align-self: center;
+    margin-top: -20px;
+    margin-bottom: 20px;
+    width: 400px;
 }
 
 
@@ -47,19 +53,22 @@ body{
 
 .player-info{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-around;
     height: 400px;
+    gap: 10px;
 }
 
 .player-info .hand{
-    margin-bottom: 80px;
+    margin-top: -80px;
+    width: 300px;
     position: relative;
 }
 
 .player-info .outcome{
     position: absolute;
-    top: 40%;
-    left: 20%;
+    top: 50%;
+    left: -20%;
     width: 250px;
     text-align: center;
     color: goldenrod;

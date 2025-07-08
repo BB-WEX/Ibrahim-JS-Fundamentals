@@ -48,6 +48,7 @@ function RemoveCard(cards, draw) {
     }
 }
 
+// Set everything to default value
 
 function Reset() {
     bust.style.display = "none";
@@ -62,7 +63,7 @@ function Reset() {
     passBtn.disabled = false;
     betAtr.disabled = false;
 
-    hand.innerText = "";
+    hand.innerText = "Cards: ";
     total.innerText = 0;
 
     if (bet > score.innerText) {
@@ -120,7 +121,7 @@ function pass() {
         win.innerText += " +" + bet;
         win.style.display = "block";
 
-        score.innerText = Number(score.innerText) + bet;
+        score.innerText = Number(score.innerText) + Number(bet);
 
         hitBtn.disabled = true;
         passBtn.disabled = true;
