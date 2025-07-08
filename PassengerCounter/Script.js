@@ -9,3 +9,7 @@ function Increase(){
 function Save(){
     entries.innerText += "-"+counter.innerText;
 }
+
+function Clear(){
+    entries.innerText = "";
+}
