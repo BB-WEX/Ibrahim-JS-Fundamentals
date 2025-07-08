@@ -19,12 +19,7 @@
             <h2>Get closest to 21, don't go over, beat the dealer</h2>
         </div>
 
-
-        <div class="dealer-info">
-            temp
-        </div>
-
-        <div class="player-info">
+        <div class="player info">
             <div class="hand">
                 <h1>Your Hand: <span id="total">0</span></h1>
                 <p id="hand">Cards: </p>
@@ -38,13 +33,24 @@
             </div>
             <div class="betting">
                 <p class="score">You: £<span id="score">200</span></p>
-                <p class="bet" >Bet: £ <input type="number" id="bet" min="0" step="10" value="20" placeholder="00" onkeydown="return false" onchange="updateBet()"></p>
+                <p class="bet" >Bet: £ <input type="number" id="bet" min="0" max="200" step="10" value="20" placeholder="00" onkeydown="return false" onchange="updateBet()"></p>
             </div>
 
         </div>
 
     </div>
 
+    <div class="container dealer">
+        <div class="title">
+            <h1>Dealer</h1>
+        </div>
+
+        <div class="dealer info">
+            <h1>Hand: <span id="total">0</span></h1>
+            <p id="hand">Cards: 0</p>
+        </div>
+
+    </div>
 </body>
 
 </html>
