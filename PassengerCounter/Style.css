@@ -1,0 +1,47 @@
+
+html{
+    height: 100%;
+    width: 100%;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container{
+    height: 90%;
+    width: 500px;
+    border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    background-image: url("https://images.pexels.com/photos/1444108/pexels-photo-1444108.jpeg?cs=srgb&dl=pexels-vladbagacian-1444108.jpg&fm=jpg");
+    background-size: cover;
+    background-position: 800px;
+}
+
+.Passenger{
+    background-color: rgba(73, 73, 73, 0.232);
+    border-radius: 15px;
+    color: white;
+    text-align: center;
+    font-size: larger;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.buttons button{
+    border: none;
+    width: 300px;
+    height: 200;
+}
