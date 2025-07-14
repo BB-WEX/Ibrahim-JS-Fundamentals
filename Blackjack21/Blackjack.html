@@ -23,17 +23,17 @@
             <div class="hand">
                 <h1>Your Hand: <span id="total">0</span></h1>
                 <p id="hand">Cards: </p>
-                <h1 class="outcome" id="bust">Bust</h1>
+                <h1 class="outcome" id="bust">Loss</h1>
                 <h1 class="outcome" id="win">Win</h1>
             </div>
 
             <div class="choices">
-                <button class="hit" id="hit" onclick="hit()">"Hit me"</button>
-                <button class="pass" id="pass" onclick="pass()">"I'll stay"</button>
+                <button class="hit" id="hit" onclick="Hit()">"Hit me"</button>
+                <button class="pass" id="pass" onclick="Pass()">"I'll stay"</button>
             </div>
             <div class="betting">
                 <p class="score">You: £<span id="score">200</span></p>
-                <p class="bet" >Bet: £ <input type="number" id="bet" min="0" max="200" step="10" value="20" placeholder="00" onkeydown="return false" onchange="updateBet()"></p>
+                <p class="bet" >Bet: £ <input type="number" id="bet" min="0" max="200" step="10" value="20" placeholder="00" onkeydown="return false" onchange="UpdateBet()"></p>
             </div>
 
         </div>
@@ -46,8 +46,8 @@
         </div>
 
         <div class="dealer info">
-            <h1>Hand: <span id="total">0</span></h1>
-            <p id="hand">Cards: 0</p>
+            <h1>Hand: <span id="total-dealer">0</span></h1>
+            <p id="hand-dealer">Cards: </p>
         </div>
 
     </div>

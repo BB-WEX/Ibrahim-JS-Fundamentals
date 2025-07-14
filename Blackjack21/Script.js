@@ -18,11 +18,15 @@ const win = document.getElementById("win");
 
 
 // Dealer
-const dealer = document.getElementsByClassName("dealer info");
-const dealerHand = dealer.getElementById("hand");
-const dealerTotal = dealer.getElementById("total");
+const dealerHand = document.getElementById("hand-dealer");
+const dealerTotal = document.getElementById("total-dealer");
+// Store cards in array to reveal later
+var dealerCards = [];
+var firstTime = true
 
 
+var playerPassed = false;
+var dealerPassed = false;
 
 // Card pile
 
@@ -36,17 +40,25 @@ const cardsDefault = [
     7, 7, 7, 7,
     8, 8, 8, 8,
     9, 9, 9, 9,
+    10, 10, 10, 10,
+    10, 10, 10, 10,
+    10, 10, 10, 10,
     10, 10, 10, 10
 ];
 var cardsAvailable = cardsDefault;
 
 
+function Lose() {
+    if (score.innerText <= 0) {
+        console.log("The House Wins");
+        score.innerText = 200;
+    }
+}
 
-function updateBet() {
+function UpdateBet() {
     bet = document.getElementById("bet").value;
     betAtr.setAttribute("max", score.innerText);
 }
-
 
 function RemoveCard(cards, draw) {
     var index = cards.indexOf(draw);
@@ -56,47 +68,18 @@ function RemoveCard(cards, draw) {
 }
 
 
-// Check if user went over 21
-function CheckBust(){
-    if (total.innerText > 21) {
+// Reveal dealer cards
+function RevealDealerCards() {
+    dealerHand.innerText = "Cards: ";
+    dealerTotal.innerText = 0;
 
-        bust.innerText += " -" + bet;
-        bust.style.display = "block";
-
-        score.innerText = Number(score.innerText) - bet;
-
-        hitBtn.disabled = true;
-        passBtn.disabled = true;
-
-        setTimeout(Reset, 3000);
+    dealerCards.forEach(elem => {
+        dealerHand.innerText += "  |  " + elem;
+        dealerTotal.innerText = Number(dealerTotal.innerText) + elem;
+    });
 }
 
-}
-
-// Set everything to default value
-function Reset() {
-    bust.style.display = "none";
-    win.style.display = "none";
-
-    bust.innerText = "Bust";
-    win.innerText = "Win";
-
-    cardsAvailable = cardsDefault;
-
-    hitBtn.disabled = false;
-    passBtn.disabled = false;
-    betAtr.disabled = false;
-
-    hand.innerText = "Cards: ";
-    total.innerText = 0;
-
-    if (bet > score.innerText) {
-        betAtr.value = score.innerText;
-    }
-}
-
-
-function hit() {
+function Hit() {
     betAtr.disabled = true;
 
     // Draw card and take it away from card pile
@@ -107,7 +90,7 @@ function hit() {
             RemoveCard(cardsAvailable, draw);
             break
         } else if (cardsAvailable.length == 0) {
-            console.log("No Cards");
+            console.log("No Cards", cardsAvailable, cardsAvailable.length);
             break
         }
     } while (true);
@@ -118,51 +101,158 @@ function hit() {
     hand.innerText += " |  " + draw;
     total.innerText = Number(total.innerText) + draw;
 
+
+    DealerDraw();
+
     CheckBust();
 }
 
-function pass() {
-    // let dealer choose do their turn
-    // for now end turn
 
-    if (total.innerText == 21) {
+function Pass() {
 
-        win.innerText += " +" + bet;
-        win.style.display = "block";
+    DealerDraw();
 
-        score.innerText = Number(score.innerText) + Number(bet);
+    playerPassed = true;
 
-        hitBtn.disabled = true;
-        passBtn.disabled = true;
+    RoundEnd(playerPassed, dealerPassed);
+}
+
+
+function DealerDraw() {
+
+    // Check if total is 16 or higher
+
+    if (dealerCards.reduce((sum, num) => sum + num, 0) >= 16) {
+        dealerPassed = true;
+    } else {
+
+
+        // Dealer draws first card is shown others are hidden
+        // Draw card and take it away from card pile
+        do {
+            draw = Math.floor(Math.random() * 10) + 1;
+            if (cardsAvailable.includes(draw)) {
+                RemoveCard(cardsAvailable, draw);
+                break
+            } else if (cardsAvailable.length == 0) {
+                console.log("No Cards");
+                break
+            }
+        } while (true);
+
+        dealerCards.push(draw);
+
+        // Show the first card
+        if (firstTime == true) {
+            dealerHand.innerText += "  |  " + draw;
+            dealerTotal.innerText = Number(dealerTotal.innerText) + draw;
+            firstTime = false;
+        } else {
+            dealerHand.innerText += "  |  " + "?";
+        }
+
+        // Check if dealer went bust
+        if (dealerCards.reduce((sum, num) => sum + num, 0) > 21) {
+            RevealDealerCards();
+
+            win.innerText += " +" + bet;
+            win.style.display = "block";
+
+            score.innerText = Number(score.innerText) + Number(bet);
+
+            hitBtn.disabled = true;
+            passBtn.disabled = true;
+
+            setTimeout(Reset, 3000);
+        }
+    }
+}
+
+
+function RoundEnd(plyr, dlr) {
+    console.log(plyr, dlr);
+
+    if (plyr == dlr) {
+        RevealDealerCards();
+
+        if (dealerTotal.innerText < total.innerText) {
+            win.innerText += " +" + bet;
+            win.style.display = "block";
+
+            score.innerText = Number(score.innerText) + Number(bet);
+
+            hitBtn.disabled = true;
+            passBtn.disabled = true;
+
+            
+        } else {
+            bust.innerText += " -" + bet;
+            bust.style.display = "block";
+
+            score.innerText = Number(score.innerText) - bet;
+
+            hitBtn.disabled = true;
+            passBtn.disabled = true;
+
+        }
 
         setTimeout(Reset, 3000);
     }
 }
 
+// Check if user went over 21
+function CheckBust() {
+    if (total.innerText > 21) {
 
-function DealerDraw(){
-    
-    // Dealer draws two cards one is shown others are hidden
-    
-    var firstTime = true
+        bust.innerText += " -" + bet;
+        bust.style.display = "block";
 
-    // Draw card and take it away from card pile
-    do {
-        draw = Math.floor(Math.random() * 10) + 1;
-        if (cardsAvailable.includes(draw)) {
-            RemoveCard(cardsAvailable, draw);
-            break
-        } else if (cardsAvailable.length == 0) {
-            console.log("No Cards");
-            break
-        }
-    } while (dealerScore >= 16);
+        score.innerText = Number(score.innerText) - bet;
 
-    // Show the first card
-    if (firstTime == true){
-        dealerHand.innerText += "  |  " + draw;
-        dealerTotal.innerText = Number(dealerTotal.innerText) + draw;
-    }else{
-        dealerHand.innerText += "  |  " + "?";
+        hitBtn.disabled = true;
+        passBtn.disabled = true;
+
+        RevealDealerCards();
+
+        setTimeout(Reset, 3000);
     }
+
+}
+
+
+// Set everything to default value
+function Reset() {
+    bust.style.display = "none";
+    win.style.display = "none";
+
+    bust.innerText = "Loss";
+    win.innerText = "Win";
+    
+    
+    cardsAvailable = [... cardsDefault];
+
+    hitBtn.disabled = false;
+    passBtn.disabled = false;
+    betAtr.disabled = false;
+
+    hand.innerText = "Cards: ";
+    total.innerText = 0;
+
+    dealerHand.innerText = "Cards: ";
+    dealerTotal.innerText = 0;
+
+    dealerCards = [];
+    firstTime = true
+
+
+    playerPassed = false;
+    dealerPassed = false;
+    UpdateBet();
+
+    if (bet > score.innerText) {
+        betAtr.value = 0;
+        bet = document.getElementById("bet").value;
+    }
+
+    Lose();
 }
