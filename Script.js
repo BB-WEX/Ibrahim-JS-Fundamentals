@@ -48,9 +48,10 @@ const cardsDefault = [
 var cardsAvailable = cardsDefault;
 
 
-function Lose(){
-    if (score <= 0){
+function Lose() {
+    if (score.innerText <= 0) {
         console.log("The House Wins");
+        score.innerText = 200;
     }
 }
 
@@ -91,9 +92,10 @@ function Hit() {
     hand.innerText += " |  " + draw;
     total.innerText = Number(total.innerText) + draw;
 
-    CheckBust();
 
     DealerDraw();
+
+    CheckBust();
 }
 
 
@@ -127,7 +129,7 @@ function DealerDraw() {
                 console.log("No Cards");
                 break
             }
-        } while (dealerScore >= 16);
+        } while (true);
 
         dealerCards.push(draw);
 
@@ -138,6 +140,28 @@ function DealerDraw() {
             firstTime = false;
         } else {
             dealerHand.innerText += "  |  " + "?";
+        }
+
+        // Check if dealer went bust
+        if (dealerCards.reduce((sum, num) => sum + num, 0) > 21) {
+            // Reveal dealer cards
+            dealerHand.innerText = "Cards: ";
+            dealerTotal.innerText = 0;
+
+            dealerCards.forEach(elem => {
+                dealerHand.innerText += "  |  " + elem;
+                dealerTotal.innerText = Number(dealerTotal.innerText) + elem;
+            });
+
+            win.innerText += " +" + bet;
+            win.style.display = "block";
+
+            score.innerText = Number(score.innerText) + Number(bet);
+
+            hitBtn.disabled = true;
+            passBtn.disabled = true;
+
+            setTimeout(Reset, 3000);
         }
     }
 }
@@ -238,6 +262,6 @@ function Reset() {
     if (bet > score.innerText) {
         betAtr.value = score.innerText;
     }
-    
+
     Lose();
 }
