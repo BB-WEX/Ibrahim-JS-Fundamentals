@@ -13,6 +13,9 @@ const cardStore = document.getElementById("cards");
 // Buttons
 const hitBtn = document.getElementById("hit");
 const passBtn = document.getElementById("pass");
+const choicePopup = document.getElementById("choice-popup");
+const cardHolder = document.getElementById("card-holder");
+
 
 // Outcomes
 const bust = document.getElementById("bust");
@@ -71,16 +74,56 @@ function RemoveCard(cards, draw) {
     }
 }
 
-function GetCard(value){
-    if (value == 1){
-        value = "ace";
-    }
+function GetChoice() {
+    return new Promise((resolve) => {
+      const btn1 = document.getElementById('btn1');
+      const btn11 = document.getElementById('btn11');
+      const AcePick = (value) => {
+        btn1.removeEventListener('click', () => AcePick(1));
+        btn11.removeEventListener('click', () => AcePick(11));
+        resolve(value);
+      };
+      btn1.addEventListener('click', () => AcePick(1));
+      btn11.addEventListener('click', () => AcePick(11));
+    });
+}
+
+async function HandleAcePick(cardValue) {
+    choicePopup.classList.add("show");
 
     const newCard = document.createElement("img");
     const suit = cardSuit[Math.floor(Math.random()*cardSuit.length)];
     console.log(suit);
+    cardHolder.appendChild(newCard);
+    newCard.src = `CardsImages/fronts/${suit}_${cardValue}.png`;
+    
+    const value = await GetChoice();
+
+    choicePopup.classList.remove("show");
+
+    cardHolder.innerHTML="";
+
     cardStore.appendChild(newCard);
-    newCard.src = `CardsImages/fronts/${suit}_${value}.png`;
+
+    return value;
+}
+
+function GetCard(value){
+    if (value == 1){
+        value = "ace";
+        var chosenNum = HandleAcePick(value);
+        return chosenNum;
+    }else{
+        const newCard = document.createElement("img");
+        const suit = cardSuit[Math.floor(Math.random()*cardSuit.length)];
+        console.log(suit);
+        cardStore.appendChild(newCard);
+        newCard.src = `CardsImages/fronts/${suit}_${value}.png`;
+    }
+}
+
+function AcePick(num){
+    return num;
 }
 
 // Reveal dealer cards
@@ -94,13 +137,13 @@ function RevealDealerCards() {
     });
 }
 
-function Hit() {
+async function Hit() {
     betAtr.disabled = true;
 
     // Draw card and take it away from card pile
 
     do {
-        draw = Math.floor(Math.random() * 10) + 1;
+        draw = Math.floor(Math.random() * cardsAvailable.length) + 1;
         if (cardsAvailable.includes(draw)) {
             RemoveCard(cardsAvailable, draw);
             break
@@ -110,14 +153,15 @@ function Hit() {
         }
     } while (true);
 
-
-    // Show the card drawn
-
+    if (draw == 1){
+        draw = await GetCard(draw);
+    }else{
+        GetCard(draw);
+    }
+  
     hand.innerText += " |  " + draw;
     total.innerText = Number(total.innerText) + draw;
-
-    GetCard(draw);
-
+    
     DealerDraw();
 
     CheckBust();
