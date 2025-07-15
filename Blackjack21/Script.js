@@ -168,17 +168,21 @@ async function Hit() {
         }
     } while (true);
 
+    hitBtn.disabled = true;
+    passBtn.disabled = true;
+
     if (draw == 1) {
-        hitBtn.disabled = true;
-        passBtn.disabled = true;
-
         draw = await GetCard(draw);
-
+        // Temporary until ace get animation it completed
         hitBtn.disabled = false;
         passBtn.disabled = false;
-    } else {
-        GetCard(draw);
-    }
+    } else { await GetCard(draw); }
+
+    addEventListener("animationend", () => {
+        hitBtn.disabled = false;
+        passBtn.disabled = false;
+    })
+
 
     hand.innerText += " |  " + draw;
     total.innerText = Number(total.innerText) + draw;
