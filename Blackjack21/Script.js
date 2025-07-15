@@ -93,7 +93,7 @@ function GetChoice() {
 }
 
 
- 
+
 async function HandleAcePick(cardValue) {
     choicePopup.classList.add("show");
     const newCard = document.createElement("img");
@@ -110,6 +110,9 @@ async function HandleAcePick(cardValue) {
     cardHolder.innerHTML = "";
     cardStore.appendChild(newCard);
 
+    // Offset the animation start the more cards there are
+    var offsetX = -274 + timesDrawn * -212;
+    document.documentElement.style.setProperty("--cardstartY", `${offsetX}px`)
     return value;
 }
 
@@ -153,7 +156,7 @@ async function Hit() {
     betAtr.disabled = true;
 
     // Draw card and take it away from card pile
-    
+
     do {
         draw = Math.floor(Math.random() * cardsAvailable.length) + 1;
         if (cardsAvailable.includes(draw)) {
@@ -164,27 +167,27 @@ async function Hit() {
             break
         }
     } while (true);
-    
+
     if (draw == 1) {
         hitBtn.disabled = true;
         passBtn.disabled = true;
-        
+
         draw = await GetCard(draw);
-        
+
         hitBtn.disabled = false;
         passBtn.disabled = false;
     } else {
         GetCard(draw);
     }
-    
+
     hand.innerText += " |  " + draw;
     total.innerText = Number(total.innerText) + draw;
-    
+
     DealerDraw();
-    
+
     CheckBust();
 
-    timesDrawn ++;
+    timesDrawn++;
 }
 
 
@@ -324,6 +327,8 @@ function Reset() {
 
     dealerCards = [];
     firstTime = true
+
+    timesDrawn = 0;
 
 
     playerPassed = false;
