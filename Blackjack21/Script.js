@@ -35,7 +35,7 @@ var dealerPassed = false;
 
 // Card pile
 
-const cardSuit = ["clubs","diamonds","hearts","spades"];
+const cardSuit = ["clubs", "diamonds", "hearts", "spades"];
 
 const cardsDefault = [
     1, 1, 1, 1,
@@ -76,53 +76,53 @@ function RemoveCard(cards, draw) {
 
 function GetChoice() {
     return new Promise((resolve) => {
-      const btn1 = document.getElementById('btn1');
-      const btn11 = document.getElementById('btn11');
-      const AcePick = (value) => {
-        btn1.removeEventListener('click', () => AcePick(1));
-        btn11.removeEventListener('click', () => AcePick(11));
-        resolve(value);
-      };
-      btn1.addEventListener('click', () => AcePick(1));
-      btn11.addEventListener('click', () => AcePick(11));
+        const btn1 = document.getElementById('btn1');
+        const btn11 = document.getElementById('btn11');
+        const AcePick = (value) => {
+            btn1.removeEventListener('click', () => AcePick(1));
+            btn11.removeEventListener('click', () => AcePick(11));
+            resolve(value);
+        };
+        btn1.addEventListener('click', () => AcePick(1));
+        btn11.addEventListener('click', () => AcePick(11));
     });
 }
 
+
 async function HandleAcePick(cardValue) {
     choicePopup.classList.add("show");
-
     const newCard = document.createElement("img");
-    const suit = cardSuit[Math.floor(Math.random()*cardSuit.length)];
+
+    const suit = cardSuit[Math.floor(Math.random() * cardSuit.length)];
     console.log(suit);
+
     cardHolder.appendChild(newCard);
     newCard.src = `CardsImages/fronts/${suit}_${cardValue}.png`;
-    
+
     const value = await GetChoice();
 
     choicePopup.classList.remove("show");
-
-    cardHolder.innerHTML="";
-
+    cardHolder.innerHTML = "";
     cardStore.appendChild(newCard);
 
     return value;
 }
 
-function GetCard(value){
-    if (value == 1){
+function GetCard(value) {
+    if (value == 1) {
         value = "ace";
         var chosenNum = HandleAcePick(value);
         return chosenNum;
-    }else{
+    } else {
         const newCard = document.createElement("img");
-        const suit = cardSuit[Math.floor(Math.random()*cardSuit.length)];
+        const suit = cardSuit[Math.floor(Math.random() * cardSuit.length)];
         console.log(suit);
         cardStore.appendChild(newCard);
         newCard.src = `CardsImages/fronts/${suit}_${value}.png`;
     }
 }
 
-function AcePick(num){
+function AcePick(num) {
     return num;
 }
 
@@ -153,15 +153,21 @@ async function Hit() {
         }
     } while (true);
 
-    if (draw == 1){
+    if (draw == 1) {
+        hitBtn.disabled = true;
+        passBtn.disabled = true;
+
         draw = await GetCard(draw);
-    }else{
+
+        hitBtn.disabled = false;
+        passBtn.disabled = false;
+    } else {
         GetCard(draw);
     }
-  
+
     hand.innerText += " |  " + draw;
     total.innerText = Number(total.innerText) + draw;
-    
+
     DealerDraw();
 
     CheckBust();
@@ -244,7 +250,7 @@ function RoundEnd(plyr, dlr) {
             hitBtn.disabled = true;
             passBtn.disabled = true;
 
-            
+
         } else {
             bust.innerText += " -" + bet;
             bust.style.display = "block";
@@ -287,9 +293,9 @@ function Reset() {
 
     bust.innerText = "Loss";
     win.innerText = "Win";
-    
-    
-    cardsAvailable = [... cardsDefault];
+
+
+    cardsAvailable = [...cardsDefault];
     cardStore.innerHTML = "";
 
     hitBtn.disabled = false;
