@@ -175,7 +175,7 @@ function RoundEnd(plyr, dlr) {
     if (plyr == dlr) {
         RevealDealerCards();
 
-        if (dealerTotal.innerText < total.innerText) {
+        if (dealerTotal.innerText <= total.innerText) {
             win.innerText += " +" + bet;
             win.style.display = "block";
 

@@ -9,7 +9,10 @@ body{
     position: relative;
     width: 100%;
     height: 100%;
+    display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
     background-image: url(Background.png);
     background-size: cover;
     background-position: center;
@@ -18,53 +21,52 @@ body{
 .logo{
     position: absolute;
     top: 50px;
-    left: 100px;
+    left: 50px;
 }
 
-.container{
-    position: absolute;
+.container {
     display: flex;
     flex-direction: column;
+    width: 100vw;
+    height: fit-content;
+}
+
+.title {
+    position: absolute;
+    text-align: center;
+    align-self: center;
+    color: white;
+    width: 400px;
+    top: 0;
+    right: 0;
+}
+
+
+.info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 400px;
+    gap: 10px;
+}
+
+.info .hand {
+    position: relative;
     background-color: black;
     border: solid rgb(121, 105, 15) 5px;
     border-radius: 40px;
     box-shadow: inset 0 0 100px 10px goldenrod;
     color: white;
-    width: 800px;
-    height: 300px;
+    width: 250px;
+    height: 320px;
     padding: 2rem;
-    gap: 40px;
-    bottom: 0;
-    left: 26%;
 }
 
-.title{
-    text-align: center;
-    align-self: center;
-    margin-top: -20px;
-    margin-bottom: 20px;
-    width: 400px;
-}
-
-
-.info{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    height: 400px;
-    gap: 10px;
-}
-
-.info .hand{
-    margin-top: -80px;
-    width: 300px;
-    position: relative;
-}
-
-.info .outcome{
+.info .outcome {
     position: absolute;
     top: 50%;
-    left: -10%;
+    left: 0%;
     width: 250px;
     text-align: center;
     color: goldenrod;
@@ -72,16 +74,16 @@ body{
     display: none;
 }
 
-.info .choices{
+.info .choices {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
 }
 
-.info .choices button{
+.info .choices button {
     border: none;
-    width: 300px;
+    width: 250px;
     height: 30px;
     border-radius: 10px;
     font-size: large;
@@ -89,19 +91,19 @@ body{
     cursor: pointer;
 }
 
-.info .choices button:hover{
+.info .choices button:hover {
     opacity: 0.8;
 }
 
-.hit{
+.hit {
     background-color: rgb(163, 0, 0);
 }
 
-.pass{
+.pass {
     background-color: rgb(1, 1, 141);
 }
 
-.bet input{
+.bet input {
     width: 45px;
     background-color: transparent;
     border: none;
@@ -110,22 +112,72 @@ body{
     user-select: none;
 }
 
+.right-controls{
+    background-color: black;
+    border: solid rgb(121, 105, 15) 5px;
+    border-radius: 40px;
+    box-shadow: inset 0 0 100px 10px goldenrod;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 250px;
+    height: 320px;
+    padding: 2rem;
+    gap: 60px;
+}
 
+.hand-and-cards{
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.cards{
+    display: flex;
+    border: solid;
+    width: 1125px;
+    height: 320px;
+}
+
+.card-pile{
+    position: absolute;
+    display: flex;
+    height: 320px;
+    width: fit-content;
+    left: 50px;
+    top: 27%;
+}
+
+.card-pile img{
+    position: absolute;
+    border-radius: 6px;
+    box-shadow: 0 0 14px 3px black;
+    height: 320px;
+}
 
 .container.dealer{
-    top: 0;
-    left: 34%;
-    height: 200px;
-    width: 500px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     border: rgba(218, 85, 32, 0.696);
+    border-radius: 40px;
+    background-color: black;
     box-shadow: inset 0 0 100px 10px rgba(218, 85, 32, 0.696);
+    color: white;
+    height: 250px;
+    width: 450px;
+    padding: 1rem;
 }
 
 .dealer.info{
     flex-direction: column;
-    gap: 0px;
     position: absolute;
     height: 100px;
-    left: 30%;
+    width: 400px;
+    left: 5%;
     top: 30%;
+    gap: 0px;
 }

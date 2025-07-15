@@ -13,35 +13,9 @@
 
     <img class="logo" src="image.png" alt="">
 
-    <div class="container">
-        <div class="title">
-            <h1>Blackjack</h1>
-            <h2>Get closest to 21, don't go over, beat the dealer</h2>
-        </div>
-
-        <div class="player info">
-            <div class="hand">
-                <h1>Your Hand: <span id="total">0</span></h1>
-                <p id="hand">Cards: </p>
-                <h1 class="outcome" id="bust">Loss</h1>
-                <h1 class="outcome" id="win">Win</h1>
-            </div>
-
-            <div class="choices">
-                <button class="hit" id="hit" onclick="Hit()">"Hit me"</button>
-                <button class="pass" id="pass" onclick="Pass()">"I'll stay"</button>
-            </div>
-            <div class="betting">
-                <p class="score">You: £<span id="score">200</span></p>
-                <p class="bet" >Bet: £ <input type="number" id="bet" min="0" max="200" step="10" value="20" placeholder="00" onkeydown="return false" onchange="UpdateBet()"></p>
-            </div>
-
-        </div>
-
-    </div>
 
     <div class="container dealer">
-        <div class="title">
+        <div class="lable">
             <h1>Dealer</h1>
         </div>
 
@@ -51,6 +25,48 @@
         </div>
 
     </div>
+
+    <div class="card-pile">
+        <img src="CardsImages/backs/blue.png">
+        <img src="CardsImages/backs/blue.png">
+
+    </div>
+
+    <div class="container">
+        <div class="title">
+            <h1>Blackjack</h1>
+            <h2>Get closest to 21, don't go over, beat the dealer</h2>
+        </div>
+
+        <div class="player info">
+            <div class="hand-and-cards">
+                <div class="hand">
+                    <h1>Your Hand: <span id="total">0</span></h1>
+                    <div id="hand">Cards: </div>
+                    <h1 class="outcome" id="bust">Loss</h1>
+                    <h1 class="outcome" id="win">Win</h1>
+                </div>
+                <div class="cards">
+                </div>
+            </div>
+
+            <div class="right-controls">
+                <div class="choices">
+                    <button class="hit" id="hit" onclick="Hit()">"Hit me"</button>
+                    <button class="pass" id="pass" onclick="Pass()">"I'll stay"</button>
+                </div>
+                <div class="betting">
+                    <p class="score">You: £<span id="score">200</span></p>
+                    <p class="bet">Bet: £ <input type="number" id="bet" min="0" max="200" step="10" value="20"
+                            placeholder="00" onkeydown="return false" onchange="UpdateBet()"></p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
 </body>
 
 </html>
