@@ -141,6 +141,10 @@ body{
     height: 300px;
 }
 
+.cards img{
+    height: 300px;
+}
+
 .card-pile{
     position: absolute;
     display: flex;
@@ -229,4 +233,46 @@ body{
 }
 .choice-popup :nth-child(3):hover{
     scale: 1.1;
+}
+
+.drawn-card{
+    position: relative;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    height: 300px;
+    width: 212px;
+    background-size: contain;
+    animation: 1.5s ease-in-out normal CardDraw;
+}
+
+.drawn-card::after{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 300px;
+    width: 212px;
+    z-index: -1;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    background-image: url(CardsImages/backs/blue.png);
+    background-size: contain;
+    transform: rotateY(180deg);
+}
+
+:root{
+    --cardstartY:-274px;
+    --cardstartX:-404px;
+}
+
+@keyframes CardDraw {
+    0%{
+        transform: translate(var(--cardstartY) , var(--cardstartX)) rotateY(180deg);
+    }
+    50%{    
+        transform: translate(var(--cardstartY) , var(--cardstartX)) rotateY(0deg);
+    }
+    100%{
+        transform: translate(0px, 0px);
+    }
 }

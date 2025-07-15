@@ -10,6 +10,7 @@ const betAtr = document.getElementById("bet");
 
 const cardStore = document.getElementById("cards");
 
+var timesDrawn = 0;
 // Buttons
 const hitBtn = document.getElementById("hit");
 const passBtn = document.getElementById("pass");
@@ -74,11 +75,14 @@ function RemoveCard(cards, draw) {
     }
 }
 
+
+// For the ace, player can choose 1 or 11 and program will wait
 function GetChoice() {
     return new Promise((resolve) => {
         const btn1 = document.getElementById('btn1');
         const btn11 = document.getElementById('btn11');
         const AcePick = (value) => {
+            // Remove to avoid duplicate event listerns
             btn1.removeEventListener('click', () => AcePick(1));
             btn11.removeEventListener('click', () => AcePick(11));
             resolve(value);
@@ -89,6 +93,7 @@ function GetChoice() {
 }
 
 
+ 
 async function HandleAcePick(cardValue) {
     choicePopup.classList.add("show");
     const newCard = document.createElement("img");
@@ -108,17 +113,24 @@ async function HandleAcePick(cardValue) {
     return value;
 }
 
+
+// Gets the value of card and a random suite and displays a visual 
 function GetCard(value) {
     if (value == 1) {
         value = "ace";
         var chosenNum = HandleAcePick(value);
         return chosenNum;
     } else {
-        const newCard = document.createElement("img");
+        const newCard = document.createElement("div");
         const suit = cardSuit[Math.floor(Math.random() * cardSuit.length)];
         console.log(suit);
         cardStore.appendChild(newCard);
-        newCard.src = `CardsImages/fronts/${suit}_${value}.png`;
+        newCard.classList.add("drawn-card");
+        newCard.style.backgroundImage = `url(CardsImages/fronts/${suit}_${value}.png)`;
+
+        // Offset the animation start the more cards there are
+        var offsetX = -274 + timesDrawn * -212;
+        document.documentElement.style.setProperty("--cardstartY", `${offsetX}px`)
     }
 }
 
@@ -141,7 +153,7 @@ async function Hit() {
     betAtr.disabled = true;
 
     // Draw card and take it away from card pile
-
+    
     do {
         draw = Math.floor(Math.random() * cardsAvailable.length) + 1;
         if (cardsAvailable.includes(draw)) {
@@ -152,25 +164,27 @@ async function Hit() {
             break
         }
     } while (true);
-
+    
     if (draw == 1) {
         hitBtn.disabled = true;
         passBtn.disabled = true;
-
+        
         draw = await GetCard(draw);
-
+        
         hitBtn.disabled = false;
         passBtn.disabled = false;
     } else {
         GetCard(draw);
     }
-
+    
     hand.innerText += " |  " + draw;
     total.innerText = Number(total.innerText) + draw;
-
+    
     DealerDraw();
-
+    
     CheckBust();
+
+    timesDrawn ++;
 }
 
 
