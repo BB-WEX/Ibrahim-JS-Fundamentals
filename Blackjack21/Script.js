@@ -4,9 +4,11 @@
 const total = document.getElementById("total");
 const hand = document.getElementById("hand");
 const score = document.getElementById("score");
+
 var bet = document.getElementById("bet").value;
 const betAtr = document.getElementById("bet");
 
+const cardStore = document.getElementById("cards");
 
 // Buttons
 const hitBtn = document.getElementById("hit");
@@ -29,6 +31,8 @@ var playerPassed = false;
 var dealerPassed = false;
 
 // Card pile
+
+const cardSuit = ["clubs","diamonds","hearts","spades"];
 
 const cardsDefault = [
     1, 1, 1, 1,
@@ -67,6 +71,17 @@ function RemoveCard(cards, draw) {
     }
 }
 
+function GetCard(value){
+    if (value == 1){
+        value = "ace";
+    }
+
+    const newCard = document.createElement("img");
+    const suit = cardSuit[Math.floor(Math.random()*cardSuit.length)];
+    console.log(suit);
+    cardStore.appendChild(newCard);
+    newCard.src = `CardsImages/fronts/${suit}_${value}.png`;
+}
 
 // Reveal dealer cards
 function RevealDealerCards() {
@@ -101,6 +116,7 @@ function Hit() {
     hand.innerText += " |  " + draw;
     total.innerText = Number(total.innerText) + draw;
 
+    GetCard(draw);
 
     DealerDraw();
 
@@ -230,6 +246,7 @@ function Reset() {
     
     
     cardsAvailable = [... cardsDefault];
+    cardStore.innerHTML = "";
 
     hitBtn.disabled = false;
     passBtn.disabled = false;
