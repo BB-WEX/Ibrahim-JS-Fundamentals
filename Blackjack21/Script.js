@@ -24,6 +24,7 @@ const win = document.getElementById("win");
 
 
 // Dealer
+const dealerCardStore = document.getElementById("card-dealer");
 const dealerHand = document.getElementById("hand-dealer");
 const dealerTotal = document.getElementById("total-dealer");
 // Store cards in array to reveal later
@@ -81,12 +82,13 @@ function RemoveCard(cards, draw) {
     }
 }
 
-function SummonCard(place, type, value){
+function SummonCard(place, type, value, extension){
     const newCard = document.createElement("div");
     const suit = cardSuit[Math.floor(Math.random() * cardSuit.length)];
     console.log(suit);
     place.appendChild(newCard);
     newCard.classList.add(type);
+    newCard.classList.add(extension);
     newCard.style.backgroundImage = `url(CardsImages/fronts/${suit}_${value}.png)`;
     return newCard;
 }
@@ -211,17 +213,20 @@ function DealerDraw() {
                 break
             }
         } while (true);
-
         dealerCards.push(draw);
-
         // Show the first card
+        var cardType
         if (firstTime == true) {
             dealerHand.innerText += "  |  " + draw;
             dealerTotal.innerText = Number(dealerTotal.innerText) + draw;
             firstTime = false;
         } else {
+            cardType = "hidden";
             dealerHand.innerText += "  |  " + "?";
         }
+
+        if(draw == 1){draw = "ace";}
+        SummonCard(dealerCardStore, "card-dealer-card", draw, cardType);
 
         // Check if dealer went bust
         if (dealerCards.reduce((sum, num) => sum + num, 0) > 21) {

@@ -175,14 +175,39 @@ body {
 }
 
 .dealer.info {
+    display: flex;
     flex-direction: column;
-    position: absolute;
+    position: relative;
     height: 100px;
     width: 400px;
-    left: 5%;
-    top: 30%;
+    top: -20%;
     gap: 0px;
 }
+
+.card-dealer{
+    display: flex;
+    justify-content: start;
+    align-self: center;
+    position: absolute;
+    top: 175px;
+    height: 300px;
+    width: calc(211px*5);
+}
+
+.card-dealer-card{
+    border-radius: 10px;
+    position: relative;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    height: 300px;
+    width: 212px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.card-dealer-card.hidden{
+    transform: rotateY(180deg);
+}
+
 
 .choice-popup.show {
     display: flex;
@@ -203,6 +228,7 @@ body {
     box-shadow:inset 0px 0px 20px gold, 0px 0px 20px 14px gold;
     background-image: url();
     background-size: cover;
+    background-repeat: no-repeat;
     height: 300px;
     width: 212px;
     backface-visibility: hidden;
@@ -257,9 +283,11 @@ body {
     height: 300px;
     width: 212px;
     background-size: contain;
+    background-repeat: no-repeat;
     animation: 1.5s ease-in-out normal CardDraw;
 }
 
+.card-dealer-card::after,
 .drawn-ace::after,
 .drawn-card::after {
     content: "";
