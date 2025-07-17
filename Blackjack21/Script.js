@@ -39,23 +39,20 @@ var dealerPassed = false;
 const cardSuit = ["clubs", "diamonds", "hearts", "spades"];
 
 const cardsDefault = [
-    1, 1, 1, 1
+    1, 1, 1, 1,
+    2, 2, 2, 2,
+    3, 3, 3, 3,
+    4, 4, 4, 4,
+    5, 5, 5, 5,
+    6, 6, 6, 6,
+    7, 7, 7, 7,
+    8, 8, 8, 8,
+    9, 9, 9, 9,
+    10, 10, 10, 10,
+    10, 10, 10, 10,
+    10, 10, 10, 10,
+    10, 10, 10, 10
 ];
-/* ,
-2, 2, 2, 2,
-3, 3, 3, 3,
-4, 4, 4, 4,
-5, 5, 5, 5,
-6, 6, 6, 6,
-7, 7, 7, 7,
-8, 8, 8, 8,
-9, 9, 9, 9,
-10, 10, 10, 10,
-10, 10, 10, 10,
-10, 10, 10, 10,
-10, 10, 10, 10
-*/
-
 var cardsAvailable = cardsDefault;
 
 
@@ -107,10 +104,10 @@ async function HandleAcePick(cardValue) {
     newCard.style.backgroundImage = `url(CardsImages/fronts/${suit}_${cardValue}.png)`;
 
     const value = await GetChoice();
-    
+
     choicePopup.classList.remove("show");
     cardHolder.innerHTML = "";
-    newCard.style.animation = "none";
+    newCard.style.animation = "1.5s ease-in-out normal AcePlace";
     cardStore.appendChild(newCard);
 
     // Offset the animation start the more cards there are

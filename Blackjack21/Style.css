@@ -1,11 +1,10 @@
-
-html{
+html {
     height: 100%;
     width: 100%;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-body{
+body {
     position: relative;
     width: 100%;
     height: 100%;
@@ -18,7 +17,7 @@ body{
     background-position: center;
 }
 
-.logo{
+.logo {
     position: absolute;
     top: 50px;
     left: 50px;
@@ -112,7 +111,7 @@ body{
     user-select: none;
 }
 
-.right-controls{
+.right-controls {
     background-color: black;
     border: solid rgb(121, 105, 15) 5px;
     border-radius: 40px;
@@ -127,25 +126,25 @@ body{
     gap: 60px;
 }
 
-.hand-and-cards{
+.hand-and-cards {
     display: flex;
     align-items: center;
     height: 100%;
     width: 100%;
 }
 
-.cards{
+.cards {
     display: flex;
     justify-content: start;
     width: 1125px;
     height: 300px;
 }
 
-.cards img{
+.cards img {
     height: 300px;
 }
 
-.card-pile{
+.card-pile {
     position: absolute;
     display: flex;
     height: 300px;
@@ -153,14 +152,14 @@ body{
     top: 27%;
 }
 
-.card-pile img{
+.card-pile img {
     position: absolute;
     border-radius: 6px;
     box-shadow: 0 0 14px 3px black;
     height: 300px;
 }
 
-.container.dealer{
+.container.dealer {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -175,7 +174,7 @@ body{
     padding: 1rem;
 }
 
-.dealer.info{
+.dealer.info {
     flex-direction: column;
     position: absolute;
     height: 100px;
@@ -185,18 +184,18 @@ body{
     gap: 0px;
 }
 
-.choice-popup.show{
+.choice-popup.show {
     display: flex;
 }
 
-.choice-popup{
+.choice-popup {
     position: absolute;
     display: none;
     align-items: center;
     top: 40%;
 }
 
-.drawn-ace{
+.drawn-ace {
     position: relative;
     transform-style: preserve-3d;
     background-image: url();
@@ -208,7 +207,7 @@ body{
     animation: 1.5s ease-in-out normal AceDraw;
 }
 
-.choice-popup h1{
+.choice-popup h1 {
     display: flex;
     position: relative;
     justify-content: center;
@@ -220,31 +219,34 @@ body{
     animation: 1.5s ease-in-out normal AceDraw;
 }
 
-.choice-popup h1 span{
+.choice-popup h1 span {
     position: absolute;
     top: -30px;
     left: 25px;
 }
 
-.choice-popup :nth-child(3) span{
+.choice-popup :nth-child(3) span {
     left: -56px;
 }
 
-:has(.choice-popup h1:nth-child(1):hover) .choice-popup .drawn-ace{
+:has(.choice-popup h1:nth-child(1):hover) .choice-popup .drawn-ace {
     rotate: -15deg;
 }
-:has(.choice-popup :nth-child(3):hover) .choice-popup .drawn-ace{
+
+:has(.choice-popup :nth-child(3):hover) .choice-popup .drawn-ace {
     rotate: 15deg;
 }
 
-.choice-popup h1:nth-child(1):hover{
-    scale: 1.1;
-}
-.choice-popup :nth-child(3):hover{
+.choice-popup h1:nth-child(1):hover {
     scale: 1.1;
 }
 
-.drawn-card{
+.choice-popup :nth-child(3):hover {
+    scale: 1.1;
+}
+
+.drawn-card {
+    border-radius: 10px;
     position: relative;
     backface-visibility: hidden;
     transform-style: preserve-3d;
@@ -255,7 +257,7 @@ body{
 }
 
 .drawn-ace::after,
-.drawn-card::after{
+.drawn-card::after {
     content: "";
     position: absolute;
     top: 0;
@@ -270,31 +272,47 @@ body{
     transform: rotateY(180deg);
 }
 
-:root{
-    --cardstartY:-274px;
-    --cardstartX:-404px;
+:root {
+    --cardstartY: -274px;
+    --cardstartX: -404px;
 }
 
 @keyframes CardDraw {
-    0%{
-        transform: translate(var(--cardstartY) , var(--cardstartX)) rotateY(180deg);
+    0% {
+        transform: translate(var(--cardstartY), var(--cardstartX)) rotateY(180deg);
     }
-    50%{    
-        transform: translate(var(--cardstartY) , var(--cardstartX)) rotateY(0deg);
+
+    50% {
+        transform: translate(var(--cardstartY), var(--cardstartX)) rotateY(0deg);
     }
-    100%{
+
+    100% {
         transform: translate(0px, 0px);
     }
 }
 
 @keyframes AceDraw {
-    0%{
+    0% {
         transform: translate(-740px, -140px) rotateY(180deg);
     }
-    50%{
+
+    50% {
         transform: translate(-740px, -140px) rotateY(0deg);
     }
-    100%{
-        transform: translate(0px,0px);
+
+    100% {
+        transform: translate(0px, 0px);
+    }
+}
+
+@keyframes AcePlace {
+    0%,10%{
+        scale: 1.1;
+    }
+    10%{
+        scale: 1;
+    }
+    20%,40%{
+        box-shadow:inset 0px 0px 20px gold, 0px 0px 30px 14px gold;
     }
 }
