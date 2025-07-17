@@ -68,7 +68,7 @@ function Lose() {
 }
 
 // Offset the animation start the more cards there are
-function offsetAnim(variable,counter, who){
+function offsetAnim(variable, counter, who) {
     const offsetX = who + counter * -212;
     document.documentElement.style.setProperty(variable, `${offsetX}px`);
 }
@@ -85,7 +85,7 @@ function RemoveCard(cards, draw) {
     }
 }
 
-function SummonCard(place, type, value, extension){
+function SummonCard(place, type, value, extension) {
     const newCard = document.createElement("div");
     const suit = cardSuit[Math.floor(Math.random() * cardSuit.length)];
     console.log(suit);
@@ -96,7 +96,7 @@ function SummonCard(place, type, value, extension){
     return newCard;
 }
 
-function ButtonState(isDisabled){
+function ButtonState(isDisabled) {
     hitBtn.disabled = isDisabled;
     passBtn.disabled = isDisabled;
 }
@@ -139,7 +139,7 @@ function GetCard(value) {
         var chosenNum = HandleAcePick(value);
         return chosenNum;
     } else {
-        SummonCard(cardStore,"drawn-card", value);
+        SummonCard(cardStore, "drawn-card", value);
         offsetAnim("--cardstartX", timesDrawn, playerXpos);
     }
 }
@@ -223,18 +223,18 @@ function DealerDraw() {
             cardType = "hidden";
             dealerHand.innerText += "  |  " + "?";
         }
-        if(draw == 11 && dealerCards.reduce((sum, num) => sum + num, 0) > 10){draw =1;}
-        if(draw == 1 || draw == 11){draw = "ace";}
-        
+        if (draw == 11 && dealerCards.reduce((sum, num) => sum + num, 0) > 10) { draw = 1; }
+        if (draw == 1 || draw == 11) { draw = "ace"; }
+
         setTimeout(() => {
             SummonCard(dealerCardStore, "card-dealer-card", draw, cardType);
-        } , 1000)
+        }, 1000)
         offsetAnim("--dealer-cardstartX", dealerTimesDrawn, dealerXPos);
 
         dealerCardStore.addEventListener("animationend", () => {
             ButtonState(false);
         });
-    
+
         // Check if dealer went bust
         if (dealerCards.reduce((sum, num) => sum + num, 0) > 21) {
             RevealDealerCards();
@@ -244,7 +244,7 @@ function DealerDraw() {
             ButtonState(true);
             setTimeout(Reset, 4000);
         }
-        dealerTimesDrawn ++;
+        dealerTimesDrawn++;
     }
 }
 
