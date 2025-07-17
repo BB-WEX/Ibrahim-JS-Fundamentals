@@ -242,7 +242,7 @@ function DealerDraw() {
             win.style.display = "block";
             score.innerText = Number(score.innerText) + Number(bet);
             ButtonState(true);
-            setTimeout(Reset, 3000);
+            setTimeout(Reset, 4000);
         }
         dealerTimesDrawn ++;
     }
@@ -263,7 +263,7 @@ function RoundEnd(plyr, dlr) {
             score.innerText = Number(score.innerText) - bet;
         }
         ButtonState(true);
-        setTimeout(Reset, 3000);
+        setTimeout(Reset, 4000);
     }
 }
 
@@ -275,7 +275,7 @@ function CheckBust() {
         score.innerText = Number(score.innerText) - bet;
         ButtonState(true);
         RevealDealerCards();
-        setTimeout(Reset, 3000);
+        setTimeout(Reset, 4000);
         return true
     }
 }
