@@ -180,12 +180,13 @@ async function Hit() {
     hand.innerText += " |  " + draw;
     total.innerText = Number(total.innerText) + draw;
 
-    CheckBust() || DealerDraw();
+    if (CheckBust() == false){ DealerDraw(); }
     timesDrawn++;
 }
 
 
 function Pass() {
+    ButtonState(true);
     DealerDraw();
     playerPassed = true;
     RoundEnd(playerPassed, dealerPassed);
@@ -226,25 +227,23 @@ function DealerDraw() {
         if (draw == 11 && dealerCards.reduce((sum, num) => sum + num, 0) > 10) { draw = 1; }
         if (draw == 1 || draw == 11) { draw = "ace"; }
 
+        offsetAnim("--dealer-cardstartX", dealerTimesDrawn, dealerXPos);
         setTimeout(() => {
             SummonCard(dealerCardStore, "card-dealer-card", draw, cardType);
         }, 1000)
-        offsetAnim("--dealer-cardstartX", dealerTimesDrawn, dealerXPos);
-
         dealerCardStore.addEventListener("animationend", () => {
             ButtonState(false);
         });
-
-        // Check if dealer went bust
-        if (dealerCards.reduce((sum, num) => sum + num, 0) > 21) {
-            RevealDealerCards();
-            win.innerText += " +" + bet;
-            win.style.display = "block";
-            score.innerText = Number(score.innerText) + Number(bet);
-            ButtonState(true);
-            setTimeout(Reset, 4000);
-        }
         dealerTimesDrawn++;
+    }
+    // Check if dealer went bust
+    if (dealerCards.reduce((sum, num) => sum + num, 0) > 21) {
+        RevealDealerCards();
+        win.innerText += " +" + bet;
+        win.style.display = "block";
+        score.innerText = Number(score.innerText) + Number(bet);
+        ButtonState(true);
+        setTimeout(Reset, 4000);
     }
 }
 
@@ -276,7 +275,9 @@ function CheckBust() {
         ButtonState(true);
         RevealDealerCards();
         setTimeout(Reset, 4000);
-        return true
+    }
+    else{
+        return false
     }
 }
 

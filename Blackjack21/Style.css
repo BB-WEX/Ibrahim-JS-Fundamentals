@@ -186,7 +186,7 @@ body {
     gap: 0px;
 }
 
-.card-dealer{
+.card-dealer {
     display: flex;
     justify-content: start;
     align-self: center;
@@ -196,7 +196,7 @@ body {
     width: calc(211px*5);
 }
 
-.card-dealer-card{
+.card-dealer-card {
     border-radius: 10px;
     position: relative;
     backface-visibility: hidden;
@@ -208,10 +208,11 @@ body {
     z-index: 1;
     animation: 1s ease-in-out normal DealerDraw;
 }
-.card-dealer-card.hidden{
+
+.card-dealer-card.hidden {
     transform: rotateY(var(--hidden));
     transition: all 1s ease-in-out;
-    animation: 1s ease-in-out normal DealerDrawHidden;
+    animation: 0.5s ease-in-out normal DealerDrawHidden;
 }
 
 
@@ -231,7 +232,7 @@ body {
     position: relative;
     transform-style: preserve-3d;
     border-radius: 10px;
-    box-shadow:inset 0px 0px 20px gold, 0px 0px 20px 14px gold;
+    box-shadow: inset 0px 0px 20px gold, 0px 0px 20px 14px gold;
     background-image: url();
     background-size: cover;
     background-repeat: no-repeat;
@@ -331,33 +332,29 @@ body {
 }
 
 @keyframes DealerDraw {
-    0%{
+    0% {
         transform: translate(var(--dealer-cardstartX), 46px) rotateY(180deg);
     }
 
-    50%{
+    50% {
         transform: translate(var(--dealer-cardstartX), 46px) rotateY(0deg);
     }
 
-    100%{
-        transform: translate(0px,0px);
+    100% {
+        transform: translate(0px, 0px);
     }
 }
 
 @keyframes DealerDrawHidden {
 
-    0%{
+    0% {
         transform: translate(var(--dealer-cardstartX), 46px) rotateY(180deg);
     }
 
-    50%{
-        transform: translate(var(--dealer-cardstartX), 46px) rotateY(180deg);
+    100% {
+        transform: translate(0px, 0px) rotateY(180deg);
     }
 
-    100%{
-        transform: translate(0px,0px) rotateY(180deg);
-    }
-    
 }
 
 @keyframes AceDraw {
@@ -375,16 +372,20 @@ body {
 }
 
 @keyframes AcePlace {
-    0%,10%{
+
+    0%,
+    10% {
         scale: 1.1;
     }
-    10%{
+
+    10% {
         scale: 1;
     }
-    20%,40%{
-        box-shadow:inset 0px 0px 20px gold, 0px 0px 30px 14px gold;
-    }
-    100%{
 
+    20%,
+    40% {
+        box-shadow: inset 0px 0px 20px gold, 0px 0px 30px 14px gold;
     }
+
+    100% {}
 }
