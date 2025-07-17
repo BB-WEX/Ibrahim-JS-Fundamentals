@@ -196,9 +196,16 @@ body{
     top: 40%;
 }
 
-.choice-popup img{
+.drawn-ace{
+    position: relative;
+    transform-style: preserve-3d;
+    background-image: url();
+    background-size: cover;
     height: 300px;
+    width: 212px;
+    backface-visibility: hidden;
     transition: all 0.5s ease-in-out;
+    animation: 1.5s ease-in-out normal AceDraw;
 }
 
 .choice-popup h1{
@@ -207,8 +214,10 @@ body{
     justify-content: center;
     font-size: 45px;
     z-index: 1;
-    transition: all 0.5s ease-in-out;
     scale: 1;
+    transition: all 0.5s ease-in-out;
+    backface-visibility: hidden;
+    animation: 1.5s ease-in-out normal AceDraw;
 }
 
 .choice-popup h1 span{
@@ -221,10 +230,10 @@ body{
     left: -56px;
 }
 
-:has(.choice-popup h1:nth-child(1):hover) .choice-popup img{
+:has(.choice-popup h1:nth-child(1):hover) .choice-popup .drawn-ace{
     rotate: -15deg;
 }
-:has(.choice-popup :nth-child(3):hover) .choice-popup img{
+:has(.choice-popup :nth-child(3):hover) .choice-popup .drawn-ace{
     rotate: 15deg;
 }
 
@@ -245,6 +254,7 @@ body{
     animation: 1.5s ease-in-out normal CardDraw;
 }
 
+.drawn-ace::after,
 .drawn-card::after{
     content: "";
     position: absolute;
@@ -274,5 +284,17 @@ body{
     }
     100%{
         transform: translate(0px, 0px);
+    }
+}
+
+@keyframes AceDraw {
+    0%{
+        transform: translate(-740px, -140px) rotateY(180deg);
+    }
+    50%{
+        transform: translate(-740px, -140px) rotateY(0deg);
+    }
+    100%{
+        transform: translate(0px,0px);
     }
 }

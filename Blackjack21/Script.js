@@ -28,7 +28,7 @@ const dealerHand = document.getElementById("hand-dealer");
 const dealerTotal = document.getElementById("total-dealer");
 // Store cards in array to reveal later
 var dealerCards = [];
-var firstTime = true
+var firstTime = true;
 
 
 var playerPassed = false;
@@ -39,20 +39,23 @@ var dealerPassed = false;
 const cardSuit = ["clubs", "diamonds", "hearts", "spades"];
 
 const cardsDefault = [
-    1, 1, 1, 1,
-    2, 2, 2, 2,
-    3, 3, 3, 3,
-    4, 4, 4, 4,
-    5, 5, 5, 5,
-    6, 6, 6, 6,
-    7, 7, 7, 7,
-    8, 8, 8, 8,
-    9, 9, 9, 9,
-    10, 10, 10, 10,
-    10, 10, 10, 10,
-    10, 10, 10, 10,
-    10, 10, 10, 10
+    1, 1, 1, 1
 ];
+/* ,
+2, 2, 2, 2,
+3, 3, 3, 3,
+4, 4, 4, 4,
+5, 5, 5, 5,
+6, 6, 6, 6,
+7, 7, 7, 7,
+8, 8, 8, 8,
+9, 9, 9, 9,
+10, 10, 10, 10,
+10, 10, 10, 10,
+10, 10, 10, 10,
+10, 10, 10, 10
+*/
+
 var cardsAvailable = cardsDefault;
 
 
@@ -96,18 +99,18 @@ function GetChoice() {
 
 async function HandleAcePick(cardValue) {
     choicePopup.classList.add("show");
-    const newCard = document.createElement("img");
-
+    const newCard = document.createElement("div");
     const suit = cardSuit[Math.floor(Math.random() * cardSuit.length)];
     console.log(suit);
-
     cardHolder.appendChild(newCard);
-    newCard.src = `CardsImages/fronts/${suit}_${cardValue}.png`;
+    newCard.classList.add("drawn-ace");
+    newCard.style.backgroundImage = `url(CardsImages/fronts/${suit}_${cardValue}.png)`;
 
     const value = await GetChoice();
-
+    
     choicePopup.classList.remove("show");
     cardHolder.innerHTML = "";
+    newCard.style.animation = "none";
     cardStore.appendChild(newCard);
 
     // Offset the animation start the more cards there are
@@ -145,7 +148,6 @@ function AcePick(num) {
 function RevealDealerCards() {
     dealerHand.innerText = "Cards: ";
     dealerTotal.innerText = 0;
-
     dealerCards.forEach(elem => {
         dealerHand.innerText += "  |  " + elem;
         dealerTotal.innerText = Number(dealerTotal.innerText) + elem;
@@ -156,7 +158,6 @@ async function Hit() {
     betAtr.disabled = true;
 
     // Draw card and take it away from card pile
-
     do {
         draw = Math.floor(Math.random() * cardsAvailable.length) + 1;
         if (cardsAvailable.includes(draw)) {
@@ -178,7 +179,8 @@ async function Hit() {
         passBtn.disabled = false;
     } else { await GetCard(draw); }
 
-    addEventListener("animationend", () => {
+    cardStore.addEventListener("animationend", () => {
+        console.log("a")
         hitBtn.disabled = false;
         passBtn.disabled = false;
     })
@@ -188,32 +190,23 @@ async function Hit() {
     total.innerText = Number(total.innerText) + draw;
 
     DealerDraw();
-
     CheckBust();
-
     timesDrawn++;
 }
 
 
 function Pass() {
-
     DealerDraw();
-
     playerPassed = true;
-
     RoundEnd(playerPassed, dealerPassed);
 }
 
 
 function DealerDraw() {
-
     // Check if total is 16 or higher
-
     if (dealerCards.reduce((sum, num) => sum + num, 0) >= 16) {
         dealerPassed = true;
     } else {
-
-
         // Dealer draws first card is shown others are hidden
         // Draw card and take it away from card pile
         do {
@@ -241,15 +234,11 @@ function DealerDraw() {
         // Check if dealer went bust
         if (dealerCards.reduce((sum, num) => sum + num, 0) > 21) {
             RevealDealerCards();
-
             win.innerText += " +" + bet;
             win.style.display = "block";
-
             score.innerText = Number(score.innerText) + Number(bet);
-
             hitBtn.disabled = true;
             passBtn.disabled = true;
-
             setTimeout(Reset, 3000);
         }
     }
@@ -258,29 +247,21 @@ function DealerDraw() {
 
 function RoundEnd(plyr, dlr) {
     console.log(plyr, dlr);
-
     if (plyr == dlr) {
         RevealDealerCards();
 
         if (dealerTotal.innerText <= total.innerText) {
             win.innerText += " +" + bet;
             win.style.display = "block";
-
             score.innerText = Number(score.innerText) + Number(bet);
-
             hitBtn.disabled = true;
             passBtn.disabled = true;
-
-
         } else {
             bust.innerText += " -" + bet;
             bust.style.display = "block";
-
             score.innerText = Number(score.innerText) - bet;
-
             hitBtn.disabled = true;
             passBtn.disabled = true;
-
         }
 
         setTimeout(Reset, 3000);
@@ -290,17 +271,12 @@ function RoundEnd(plyr, dlr) {
 // Check if user went over 21
 function CheckBust() {
     if (total.innerText > 21) {
-
         bust.innerText += " -" + bet;
         bust.style.display = "block";
-
         score.innerText = Number(score.innerText) - bet;
-
         hitBtn.disabled = true;
         passBtn.disabled = true;
-
         RevealDealerCards();
-
         setTimeout(Reset, 3000);
     }
 
@@ -331,18 +307,14 @@ function Reset() {
 
     dealerCards = [];
     firstTime = true
-
     timesDrawn = 0;
-
 
     playerPassed = false;
     dealerPassed = false;
     UpdateBet();
-
     if (bet > score.innerText) {
         betAtr.value = 0;
         bet = document.getElementById("bet").value;
     }
-
     Lose();
 }
