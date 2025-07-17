@@ -1,4 +1,3 @@
-
 // Scores and info
 // Player
 const total = document.getElementById("total");
@@ -11,6 +10,7 @@ const betAtr = document.getElementById("bet");
 const cardStore = document.getElementById("cards");
 
 var timesDrawn = 0;
+const playerXpos = -274;
 // Buttons
 const hitBtn = document.getElementById("hit");
 const passBtn = document.getElementById("pass");
@@ -27,6 +27,9 @@ const win = document.getElementById("win");
 const dealerCardStore = document.getElementById("card-dealer");
 const dealerHand = document.getElementById("hand-dealer");
 const dealerTotal = document.getElementById("total-dealer");
+
+var dealerTimesDrawn = 0;
+const dealerXPos = -319;
 // Store cards in array to reveal later
 var dealerCards = [];
 var firstTime = true;
@@ -65,9 +68,9 @@ function Lose() {
 }
 
 // Offset the animation start the more cards there are
-function offsetAnim(){
-    var offsetX = -274 + timesDrawn * -212;
-    document.documentElement.style.setProperty("--cardstartY", `${offsetX}px`);
+function offsetAnim(variable,counter, who){
+    const offsetX = who + counter * -212;
+    document.documentElement.style.setProperty(variable, `${offsetX}px`);
 }
 
 function UpdateBet() {
@@ -124,7 +127,7 @@ async function HandleAcePick(cardValue) {
     newCard.style.animation = "1.5s ease-in-out normal AcePlace";
     newCard.style.boxShadow = "none";
     cardStore.appendChild(newCard);
-    offsetAnim();
+    offsetAnim("--cardstartX", timesDrawn, playerXpos);
     return value;
 }
 
@@ -137,16 +140,14 @@ function GetCard(value) {
         return chosenNum;
     } else {
         SummonCard(cardStore,"drawn-card", value);
-        offsetAnim();
+        offsetAnim("--cardstartX", timesDrawn, playerXpos);
     }
 }
 
-function AcePick(num) {
-    return num;
-}
 
 // Reveal dealer cards
 function RevealDealerCards() {
+    document.documentElement.style.setProperty("--hidden", "0deg");
     dealerHand.innerText = "Cards: ";
     dealerTotal.innerText = 0;
     dealerCards.forEach(elem => {
@@ -176,15 +177,10 @@ async function Hit() {
         draw = await GetCard(draw);
     } else { await GetCard(draw); }
 
-    cardStore.addEventListener("animationend", () => {
-        ButtonState(false);
-    })
-
     hand.innerText += " |  " + draw;
     total.innerText = Number(total.innerText) + draw;
 
-    DealerDraw();
-    CheckBust();
+    CheckBust() || DealerDraw();
     timesDrawn++;
 }
 
@@ -200,11 +196,14 @@ function DealerDraw() {
     // Check if total is 16 or higher
     if (dealerCards.reduce((sum, num) => sum + num, 0) >= 16) {
         dealerPassed = true;
+        cardStore.addEventListener("animationend", () => {
+            ButtonState(false);
+        });
     } else {
         // Dealer draws first card is shown others are hidden
         // Draw card and take it away from card pile
         do {
-            draw = Math.floor(Math.random() * 10) + 1;
+            draw = Math.floor(Math.random() * 11) + 1;
             if (cardsAvailable.includes(draw)) {
                 RemoveCard(cardsAvailable, draw);
                 break
@@ -224,10 +223,18 @@ function DealerDraw() {
             cardType = "hidden";
             dealerHand.innerText += "  |  " + "?";
         }
+        if(draw == 11 && dealerCards.reduce((sum, num) => sum + num, 0) > 10){draw =1;}
+        if(draw == 1 || draw == 11){draw = "ace";}
+        
+        setTimeout(() => {
+            SummonCard(dealerCardStore, "card-dealer-card", draw, cardType);
+        } , 1000)
+        offsetAnim("--dealer-cardstartX", dealerTimesDrawn, dealerXPos);
 
-        if(draw == 1){draw = "ace";}
-        SummonCard(dealerCardStore, "card-dealer-card", draw, cardType);
-
+        dealerCardStore.addEventListener("animationend", () => {
+            ButtonState(false);
+        });
+    
         // Check if dealer went bust
         if (dealerCards.reduce((sum, num) => sum + num, 0) > 21) {
             RevealDealerCards();
@@ -237,6 +244,7 @@ function DealerDraw() {
             ButtonState(true);
             setTimeout(Reset, 3000);
         }
+        dealerTimesDrawn ++;
     }
 }
 
@@ -268,8 +276,8 @@ function CheckBust() {
         ButtonState(true);
         RevealDealerCards();
         setTimeout(Reset, 3000);
+        return true
     }
-
 }
 
 
@@ -281,9 +289,10 @@ function Reset() {
     bust.innerText = "Loss";
     win.innerText = "Win";
 
-
     cardsAvailable = [...cardsDefault];
+
     cardStore.innerHTML = "";
+    dealerCardStore.innerHTML = "";
 
     ButtonState(false);
     betAtr.disabled = false;
@@ -293,13 +302,16 @@ function Reset() {
 
     dealerHand.innerText = "Cards: ";
     dealerTotal.innerText = 0;
-
     dealerCards = [];
     firstTime = true
+
     timesDrawn = 0;
+    dealerTimesDrawn = 0;
 
     playerPassed = false;
     dealerPassed = false;
+
+    document.documentElement.style.setProperty("--hidden", "180deg");
     UpdateBet();
     if (bet > score.innerText) {
         betAtr.value = 0;

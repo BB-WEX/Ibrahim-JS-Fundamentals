@@ -6,6 +6,7 @@ html {
 
 body {
     position: relative;
+    margin: 0px;
     width: 100%;
     height: 100%;
     display: flex;
@@ -13,6 +14,7 @@ body {
     align-items: center;
     justify-content: space-between;
     background-image: url(Background.png);
+    background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
 }
@@ -203,9 +205,13 @@ body {
     width: 212px;
     background-size: contain;
     background-repeat: no-repeat;
+    z-index: 1;
+    animation: 1s ease-in-out normal DealerDraw;
 }
 .card-dealer-card.hidden{
-    transform: rotateY(180deg);
+    transform: rotateY(var(--hidden));
+    transition: all 1s ease-in-out;
+    animation: 1s ease-in-out normal DealerDrawHidden;
 }
 
 
@@ -218,7 +224,7 @@ body {
     display: none;
     align-items: center;
     top: 40%;
-    z-index: 1;
+    z-index: 2;
 }
 
 .drawn-ace {
@@ -232,8 +238,8 @@ body {
     height: 300px;
     width: 212px;
     backface-visibility: hidden;
-    transition: all 0.5s ease-in-out;
-    animation: 1.5s ease-in-out normal AceDraw;
+    transition: all 1s ease-in-out;
+    animation: 1s ease-in-out normal AceDraw;
 }
 
 .choice-popup h1 {
@@ -243,10 +249,10 @@ body {
     font-size: 45px;
     z-index: 1;
     scale: 1;
-    transition: all 0.5s ease-in-out;
+    transition: all 1s ease-in-out;
     backface-visibility: hidden;
     color: goldenrod;
-    animation: 1.5s ease-in-out normal AceDraw;
+    animation: 1s ease-in-out normal AceDraw;
 }
 
 .choice-popup h1 span {
@@ -284,7 +290,7 @@ body {
     width: 212px;
     background-size: contain;
     background-repeat: no-repeat;
-    animation: 1.5s ease-in-out normal CardDraw;
+    animation: 1s ease-in-out normal CardDraw;
 }
 
 .card-dealer-card::after,
@@ -305,22 +311,53 @@ body {
 }
 
 :root {
-    --cardstartY: -274px;
-    --cardstartX: -404px;
+    --cardstartX: -274px;
+    --dealer-cardstartX: -319px;
+    --hidden: 180deg;
 }
 
 @keyframes CardDraw {
     0% {
-        transform: translate(var(--cardstartY), var(--cardstartX)) rotateY(180deg);
+        transform: translate(var(--cardstartX), -404px) rotateY(180deg);
     }
 
     50% {
-        transform: translate(var(--cardstartY), var(--cardstartX)) rotateY(0deg);
+        transform: translate(var(--cardstartX), -404px) rotateY(0deg);
     }
 
     100% {
         transform: translate(0px, 0px);
     }
+}
+
+@keyframes DealerDraw {
+    0%{
+        transform: translate(var(--dealer-cardstartX), 46px) rotateY(180deg);
+    }
+
+    50%{
+        transform: translate(var(--dealer-cardstartX), 46px) rotateY(0deg);
+    }
+
+    100%{
+        transform: translate(0px,0px);
+    }
+}
+
+@keyframes DealerDrawHidden {
+
+    0%{
+        transform: translate(var(--dealer-cardstartX), 46px) rotateY(180deg);
+    }
+
+    50%{
+        transform: translate(var(--dealer-cardstartX), 46px) rotateY(180deg);
+    }
+
+    100%{
+        transform: translate(0px,0px) rotateY(180deg);
+    }
+    
 }
 
 @keyframes AceDraw {
