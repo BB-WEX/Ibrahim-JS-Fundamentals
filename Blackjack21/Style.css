@@ -193,11 +193,14 @@ body {
     display: none;
     align-items: center;
     top: 40%;
+    z-index: 1;
 }
 
 .drawn-ace {
     position: relative;
     transform-style: preserve-3d;
+    border-radius: 10px;
+    box-shadow:inset 0px 0px 20px gold, 0px 0px 20px 14px gold;
     background-image: url();
     background-size: cover;
     height: 300px;
@@ -314,5 +317,8 @@ body {
     }
     20%,40%{
         box-shadow:inset 0px 0px 20px gold, 0px 0px 30px 14px gold;
+    }
+    100%{
+
     }
 }

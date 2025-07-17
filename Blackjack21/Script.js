@@ -63,6 +63,12 @@ function Lose() {
     }
 }
 
+// Offset the animation start the more cards there are
+function offsetAnim(){
+    var offsetX = -274 + timesDrawn * -212;
+    document.documentElement.style.setProperty("--cardstartY", `${offsetX}px`);
+}
+
 function UpdateBet() {
     bet = document.getElementById("bet").value;
     betAtr.setAttribute("max", score.innerText);
@@ -73,6 +79,21 @@ function RemoveCard(cards, draw) {
     if (index > -1) {
         cards.splice(index, 1)
     }
+}
+
+function SummonCard(place, type, value){
+    const newCard = document.createElement("div");
+    const suit = cardSuit[Math.floor(Math.random() * cardSuit.length)];
+    console.log(suit);
+    place.appendChild(newCard);
+    newCard.classList.add(type);
+    newCard.style.backgroundImage = `url(CardsImages/fronts/${suit}_${value}.png)`;
+    return newCard;
+}
+
+function ButtonState(isDisabled){
+    hitBtn.disabled = isDisabled;
+    passBtn.disabled = isDisabled;
 }
 
 
@@ -92,27 +113,16 @@ function GetChoice() {
     });
 }
 
-
-
 async function HandleAcePick(cardValue) {
     choicePopup.classList.add("show");
-    const newCard = document.createElement("div");
-    const suit = cardSuit[Math.floor(Math.random() * cardSuit.length)];
-    console.log(suit);
-    cardHolder.appendChild(newCard);
-    newCard.classList.add("drawn-ace");
-    newCard.style.backgroundImage = `url(CardsImages/fronts/${suit}_${cardValue}.png)`;
-
+    const newCard = SummonCard(cardHolder, "drawn-ace", cardValue);
     const value = await GetChoice();
-
     choicePopup.classList.remove("show");
     cardHolder.innerHTML = "";
     newCard.style.animation = "1.5s ease-in-out normal AcePlace";
+    newCard.style.boxShadow = "none";
     cardStore.appendChild(newCard);
-
-    // Offset the animation start the more cards there are
-    var offsetX = -274 + timesDrawn * -212;
-    document.documentElement.style.setProperty("--cardstartY", `${offsetX}px`)
+    offsetAnim();
     return value;
 }
 
@@ -124,16 +134,8 @@ function GetCard(value) {
         var chosenNum = HandleAcePick(value);
         return chosenNum;
     } else {
-        const newCard = document.createElement("div");
-        const suit = cardSuit[Math.floor(Math.random() * cardSuit.length)];
-        console.log(suit);
-        cardStore.appendChild(newCard);
-        newCard.classList.add("drawn-card");
-        newCard.style.backgroundImage = `url(CardsImages/fronts/${suit}_${value}.png)`;
-
-        // Offset the animation start the more cards there are
-        var offsetX = -274 + timesDrawn * -212;
-        document.documentElement.style.setProperty("--cardstartY", `${offsetX}px`)
+        SummonCard(cardStore,"drawn-card", value);
+        offsetAnim();
     }
 }
 
@@ -166,22 +168,15 @@ async function Hit() {
         }
     } while (true);
 
-    hitBtn.disabled = true;
-    passBtn.disabled = true;
+    ButtonState(true);
 
     if (draw == 1) {
         draw = await GetCard(draw);
-        // Temporary until ace get animation it completed
-        hitBtn.disabled = false;
-        passBtn.disabled = false;
     } else { await GetCard(draw); }
 
     cardStore.addEventListener("animationend", () => {
-        console.log("a")
-        hitBtn.disabled = false;
-        passBtn.disabled = false;
+        ButtonState(false);
     })
-
 
     hand.innerText += " |  " + draw;
     total.innerText = Number(total.innerText) + draw;
@@ -234,8 +229,7 @@ function DealerDraw() {
             win.innerText += " +" + bet;
             win.style.display = "block";
             score.innerText = Number(score.innerText) + Number(bet);
-            hitBtn.disabled = true;
-            passBtn.disabled = true;
+            ButtonState(true);
             setTimeout(Reset, 3000);
         }
     }
@@ -246,21 +240,16 @@ function RoundEnd(plyr, dlr) {
     console.log(plyr, dlr);
     if (plyr == dlr) {
         RevealDealerCards();
-
         if (dealerTotal.innerText <= total.innerText) {
             win.innerText += " +" + bet;
             win.style.display = "block";
             score.innerText = Number(score.innerText) + Number(bet);
-            hitBtn.disabled = true;
-            passBtn.disabled = true;
         } else {
             bust.innerText += " -" + bet;
             bust.style.display = "block";
             score.innerText = Number(score.innerText) - bet;
-            hitBtn.disabled = true;
-            passBtn.disabled = true;
         }
-
+        ButtonState(true);
         setTimeout(Reset, 3000);
     }
 }
@@ -271,8 +260,7 @@ function CheckBust() {
         bust.innerText += " -" + bet;
         bust.style.display = "block";
         score.innerText = Number(score.innerText) - bet;
-        hitBtn.disabled = true;
-        passBtn.disabled = true;
+        ButtonState(true);
         RevealDealerCards();
         setTimeout(Reset, 3000);
     }
@@ -292,8 +280,7 @@ function Reset() {
     cardsAvailable = [...cardsDefault];
     cardStore.innerHTML = "";
 
-    hitBtn.disabled = false;
-    passBtn.disabled = false;
+    ButtonState(false);
     betAtr.disabled = false;
 
     hand.innerText = "Cards: ";
