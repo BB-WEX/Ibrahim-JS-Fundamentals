@@ -23,6 +23,7 @@ const phone = document.getElementById("phone");
 const website = document.getElementById("website");
 const company = document.getElementById("company");
 
+const noFoundMessage = document.getElementById("no-found");
 
 function displayOutput(message, target) {
     try {
@@ -32,20 +33,8 @@ function displayOutput(message, target) {
     }
 }
 
-function getID() {
-    const textinput = document.getElementById("InputID").value;
-
-    data.forEach(elem => {
-        if (elem.id == textinput) {
-            SelectedData = elem;
-        }
-    });
-
-    try {
-        SelectedData;
-
-
-        const TargetArray = [name, username, email, company, phone, website, street, suite, city, zipcode];
+function getIDInfo(SelectedData){
+    const TargetArray = [name, username, email, company, phone, website, street, suite, city, zipcode];
         const ObjectArray = Object.values(SelectedData);
         const AddressArray = Object.values(SelectedData.address);
 
@@ -63,7 +52,22 @@ function getID() {
                 }
             }
         }
+}
+
+function getID() {
+    const textinput = document.getElementById("InputID").value;
+    SelectedData = null;
+    data.forEach(elem => {
+        if (elem.id == textinput) {
+            SelectedData = elem;
+        }
+    });
+
+    try {
+        getIDInfo(SelectedData);
+        noFoundMessage.style.opacity = "0";
     } catch (error) {
         console.error("ID in data not found");
+        noFoundMessage.style.opacity = "1";
     }
 }

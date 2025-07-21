@@ -30,3 +30,9 @@ body{
     border-radius: 10px;
     text-align: center;
 }
+
+.no-found{
+    font-weight: bold;
+    text-align: center;
+    opacity: 0;
+}
