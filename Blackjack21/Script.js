@@ -81,7 +81,7 @@ function UpdateBet() {
 function RemoveCard(cards, draw) {
     var index = cards.indexOf(draw);
     if (index > -1) {
-        cards.splice(index, 1)
+        cards.splice(index, 1);
     }
 }
 
@@ -180,7 +180,7 @@ async function Hit() {
     hand.innerText += " |  " + draw;
     total.innerText = Number(total.innerText) + draw;
 
-    if (CheckBust() == false){ DealerDraw(); }
+    if (CheckBust() == false) { DealerDraw(); }
     timesDrawn++;
 }
 
@@ -215,7 +215,7 @@ function DealerDraw() {
         } while (true);
         dealerCards.push(draw);
         // Show the first card
-        var cardType
+        var cardType;
         if (firstTime == true) {
             dealerHand.innerText += "  |  " + draw;
             dealerTotal.innerText = Number(dealerTotal.innerText) + draw;
@@ -276,8 +276,8 @@ function CheckBust() {
         RevealDealerCards();
         setTimeout(Reset, 4000);
     }
-    else{
-        return false
+    else {
+        return false;
     }
 }
 
@@ -304,7 +304,7 @@ function Reset() {
     dealerHand.innerText = "Cards: ";
     dealerTotal.innerText = 0;
     dealerCards = [];
-    firstTime = true
+    firstTime = true;
 
     timesDrawn = 0;
     dealerTimesDrawn = 0;
