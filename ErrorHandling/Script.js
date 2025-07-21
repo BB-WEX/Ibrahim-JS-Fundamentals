@@ -33,25 +33,25 @@ function displayOutput(message, target) {
     }
 }
 
-function getIDInfo(SelectedData){
-    const TargetArray = [name, username, email, company, phone, website, street, suite, city, zipcode];
-        const ObjectArray = Object.values(SelectedData);
-        const AddressArray = Object.values(SelectedData.address);
+function getIDInfo(SelectedData) {
+    const targetArray = [name, username, email, company, phone, website, street, suite, city, zipcode];
+    const objectArray = Object.values(SelectedData);
+    const addressArray = Object.values(SelectedData.address);
 
-        ObjectArray.shift();
-        AddressArray.pop();
+    objectArray.shift();
+    addressArray.pop();
 
-        for (let i = 0; i < TargetArray.length; i++) {
-            displayOutput(ObjectArray[i], TargetArray[i]);
-            displayOutput(SelectedData.company.name, company);
+    for (let i = 0; i < targetArray.length; i++) {
+        displayOutput(objectArray[i], targetArray[i]);
+        displayOutput(SelectedData.company.name, company);
 
-            if (i >= 6) {
-                for (let x = 0; x < AddressArray.length; x++) {
-                    displayOutput(AddressArray[x], TargetArray[i]);
-                    i++
-                }
+        if (i >= 6) {
+            for (let x = 0; x < addressArray.length; x++) {
+                displayOutput(addressArray[x], targetArray[i]);
+                i++
             }
         }
+    }
 }
 
 function getID() {
