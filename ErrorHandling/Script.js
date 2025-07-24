@@ -33,17 +33,17 @@ function displayOutput(message, target) {
     }
 }
 
-function getIDInfo(SelectedData) {
+function getIDInfo(selectedData) {
     const targetArray = [name, username, email, company, phone, website, street, suite, city, zipcode];
-    const objectArray = Object.values(SelectedData);
-    const addressArray = Object.values(SelectedData.address);
+    const objectArray = Object.values(selectedData);
+    const addressArray = Object.values(selectedData.address);
 
     objectArray.shift();
     addressArray.pop();
 
     for (let i = 0; i < targetArray.length; i++) {
         displayOutput(objectArray[i], targetArray[i]);
-        displayOutput(SelectedData.company.name, company);
+        displayOutput(selectedData.company.name, company);
 
         if (i >= 6) {
             for (let x = 0; x < addressArray.length; x++) {
@@ -56,15 +56,15 @@ function getIDInfo(SelectedData) {
 
 function getID() {
     const textinput = document.getElementById("InputID").value;
-    SelectedData = null;
+    selectedData = null;
     data.forEach(elem => {
         if (elem.id == textinput) {
-            SelectedData = elem;
+            selectedData = elem;
         }
     });
 
     try {
-        getIDInfo(SelectedData);
+        getIDInfo(selectedData);
         noFoundMessage.style.opacity = "0";
     } catch (error) {
         console.error("ID in data not found");
